@@ -1,15 +1,21 @@
 //- inside body tag
-nav
-  ul
-    li
-      a(href='/') Home
-    li
-      a(href='/search') Search
-    if authorized
-      li
-        a(href='/profile') Profile
-      li
-        a(href='/logout') Logout
-    else
-      li
-        a(href='/authorize') Login
+nav(class='navbar navbar-default')
+  div(class='container-fluid')
+    div(class='navbar-header')
+      a(
+        class='navbar-brand',
+        href='/'
+      ) Playlist Cleaner
+    ul(class='nav navbar-nav')
+      li(id='home')
+        a(href='/') Home
+      li(id='search')
+        a(href='/search') Search
+      if authorized
+        li(id='profile')
+          a(href='/profile') Profile
+        li(id='logout')
+          a(href='/logout') Logout
+      else
+        li
+          a(href='/authorize') Login
