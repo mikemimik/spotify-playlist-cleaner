@@ -20,6 +20,7 @@ function initialize () {
 app.set('view engine', 'pug');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
 app.use('/', require('./routes/root'));
 app.use('/authorize', require('./routes/authorize'));
 app.use('/callback', require('./routes/callback'));
