@@ -1,0 +1,37 @@
+{
+  "name": "spotify-playlist-cleaner",
+  "version": "0.1.0",
+  "description": "Utility to process playlists and remove all music labeled as explicit.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikemimik/spotify-playlist-cleaner.git"
+  },
+  "keywords": [
+    "spotify",
+    "playlist",
+    "manager",
+    "cleaner",
+    "tool",
+    "utility"
+  ],
+  "author": "Michael Perrotte <mike@mikecorp.ca>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mikemimik/spotify-playlist-cleaner/issues"
+  },
+  "homepage": "https://github.com/mikemimik/spotify-playlist-cleaner#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "pug": "^2.0.0-beta6",
+    "spotify-web-api-node": "^2.3.5"
+  },
+  "devDependencies": {
+    "semistandard": "^9.0.0"
+  }
+}
