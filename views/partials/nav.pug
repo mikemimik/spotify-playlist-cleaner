@@ -1,0 +1,15 @@
+//- inside body tag
+nav
+  ul
+    li
+      a(href='/') Home
+    li
+      a(href='/search') Search
+    if authorized
+      li
+        a(href='/profile') Profile
+      li
+        a(href='/logout') Logout
+    else
+      li
+        a(href='/authorize') Login

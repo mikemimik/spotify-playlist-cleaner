@@ -1,0 +1,25 @@
+extends partials/layout.pug
+
+block content
+  h3 Playlist Search Page
+  form(
+    id='playlistSearch'
+    action='search'
+    method='post'
+    )
+    fieldset
+      legend Search for Playlist
+      div(class='form-group')
+        label(
+          class='col-md-4 control-label'
+          for='searchInput'
+          ) Search
+        div(class='col-md-5')
+          input(
+            id='searchInput'
+            name='searchInput'
+            type='search'
+            placeholder='playlist search'
+            class='form-control input-md'
+            required=''
+            )
