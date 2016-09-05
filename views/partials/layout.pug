@@ -2,7 +2,9 @@ doctype html
 html
   head
     include header.pug
+    block script
   body
     include nav.pug
-    block content
+    div(class='container')
+      block content
     include footer.pug
