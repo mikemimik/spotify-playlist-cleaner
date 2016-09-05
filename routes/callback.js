@@ -24,7 +24,6 @@ router.route('/')
           AppState.spotifyWebApi.setRefreshToken(AppState.token.refresh);
           AppState.render.authorized = true;
           return AppState.spotifyWebApi.getMe();
-
         })
         .then((data) => {
           let user = {
@@ -39,7 +38,6 @@ router.route('/')
       // invalid return
       res.status(400).end();
     }
-
   });
 
 module.exports = router;
