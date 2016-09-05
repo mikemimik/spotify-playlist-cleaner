@@ -8,7 +8,7 @@ router.route('/')
   .get((req, res, next) => {
     AppState.spotifyWebApi.getMe()
       .then((data) => {
-        console.log(data);
+        // console.log(data); // TESTING
         let user = {
           name: data.body.id
         };
