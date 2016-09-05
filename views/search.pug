@@ -1,5 +1,11 @@
 extends partials/layout.pug
 
+block script
+  script.
+    $(document).ready(function() {
+      $('#search').addClass('active');
+    });
+
 block content
   h3 Playlist Search Page
   form(

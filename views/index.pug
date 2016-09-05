@@ -1,4 +1,10 @@
 extends partials/layout.pug
 
+block script
+  script.
+    $(document).ready(function() {
+      $('#home').addClass('active');
+    });
+
 block content
   h3 Welcome Page
