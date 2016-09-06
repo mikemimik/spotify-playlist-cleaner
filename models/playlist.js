@@ -15,7 +15,8 @@ class Playlist {
     return {
       id: this.id,
       name: this.name,
-      numTracks: this.tracks.total
+      numTracks: this.tracks.total,
+      img: this.images[0].url
     };
   }
 }
