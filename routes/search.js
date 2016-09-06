@@ -9,8 +9,10 @@ router.route('/')
   .all((req, res, next) => {
     // check app state
     if (AppState.render.user) {
+      AppState.render.currentUrl = '/search';
       next();
     } else {
+      AppState.render.currentUrl = '/';
       res.redirect('/');
     }
   })

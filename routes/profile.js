@@ -5,6 +5,10 @@ const express = require('express');
 const router = express.Router();
 
 router.route('/')
+  .all((req, res, next) => {
+    AppState.render.currentUrl = '/profile';
+    next();
+  })
   .get((req, res, next) => {
     AppState.spotifyWebApi.getMe()
       .then((data) => {

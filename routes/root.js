@@ -4,6 +4,10 @@ const express = require('express');
 const router = express.Router();
 
 router.route('/')
+  .all((req, res, next) => {
+    AppState.render.currentUrl = '/';
+    next();
+  })
   .get((req, res, next) => {
     res.render('index', AppState.render);
   });

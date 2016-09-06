@@ -6,6 +6,10 @@ const Config = require('../config');
 const router = express.Router();
 
 router.route('/')
+  .all((req, res, next) => {
+    AppState.render.currentUrl = '/';
+    next();
+  })
   .post((req, res, next) => {
     console.log('received POST to /callback'); // TESTING
     res.render('index', AppState.render);
