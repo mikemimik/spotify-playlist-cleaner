@@ -13,7 +13,8 @@ router.route('/')
       next();
     } else {
       AppState.render.currentUrl = '/';
-      AppState.render.error = {
+      AppState.render.notification = {
+        type: 'warning',
         message: 'Need to be logged in!'
       };
       res.redirect('/');

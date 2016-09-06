@@ -12,8 +12,8 @@ module.exports.createPlaylistItems = function createPlaylistItems (items) {
 
 module.exports.renderView = function renderView (res, state, err, html) {
   if (err) { Handlers.error.call(err); }
-  if (state.render.error) {
-    delete state.render.error;
+  if (state.render.notification) {
+    delete state.render.notification;
   }
   res.send(html);
 };
