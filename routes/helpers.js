@@ -1,4 +1,5 @@
 'use strict';
+const Handlers = require('../handlers');
 const Playlist = require('../models/playlist');
 
 module.exports.createPlaylistItems = function createPlaylistItems (items) {
@@ -7,4 +8,12 @@ module.exports.createPlaylistItems = function createPlaylistItems (items) {
     playlists.push(new Playlist(item).render());
   });
   return playlists;
+};
+
+module.exports.renderView = function renderView (res, state, err, html) {
+  if (err) { Handlers.error.call(err); }
+  if (state.render.error) {
+    delete state.render.error;
+  }
+  res.send(html);
 };

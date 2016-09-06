@@ -2,6 +2,7 @@
 const AppState = require('../src/state');
 const Handlers = require('../handlers');
 const express = require('express');
+const Helpers = require('./helpers');
 const router = express.Router();
 
 router.route('/')
@@ -17,7 +18,11 @@ router.route('/')
           name: data.body.id
         };
         AppState.render.user = user;
-        res.render('profile', AppState.render);
+        res.render(
+          'profile',
+          AppState.render,
+          Helpers.renderView.bind(this, res, AppState)
+        );
       })
       .catch(Handlers.error);
   });

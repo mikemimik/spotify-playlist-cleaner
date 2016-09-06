@@ -2,6 +2,7 @@
 const AppState = require('../src/state');
 const Handlers = require('../handlers');
 const express = require('express');
+const Helpers = require('./helpers');
 const Config = require('../config');
 const router = express.Router();
 
@@ -12,7 +13,11 @@ router.route('/')
   })
   .post((req, res, next) => {
     console.log('received POST to /callback'); // TESTING
-    res.render('index', AppState.render);
+    res.render(
+      'index',
+      AppState.render,
+      Helpers.renderView(this, res, AppState)
+    );
   })
   .get((req, res, next) => {
     console.log('received GET to /callback'); // TESTING
@@ -35,7 +40,11 @@ router.route('/')
             name: data.body.display_name ? data.body.display_name : data.body.id
           };
           AppState.render.user = user;
-          res.render('index', AppState.render);
+          res.render(
+            'index',
+            AppState.render,
+            Helpers.renderView(this, res, AppState)
+          );
         })
         .catch(Handlers.error);
     } else {
