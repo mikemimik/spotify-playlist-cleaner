@@ -1,9 +1,9 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
 const AppState = require('../src/state');
 const Handlers = require('../handlers');
+const express = require('express');
 const Config = require('../config');
+const router = express.Router();
 
 router.route('/')
   .post((req, res, next) => {

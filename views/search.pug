@@ -8,24 +8,13 @@ block script
 
 block content
   h3 Playlist Search Page
-  form(
-    id='playlistSearch'
-    action='search'
-    method='post'
-    )
+  form(id='playlistSearch', action='search', method='post')
     fieldset
       legend Search for Playlist
       div(class='form-group')
-        label(
-          class='col-md-4 control-label'
-          for='searchInput'
-          ) Search
+        label(class='col-md-4 control-label', for='searchInput') Search
         div(class='col-md-5')
-          input(
-            id='searchInput'
-            name='searchInput'
-            type='search'
-            placeholder='playlist search'
-            class='form-control input-md'
-            required=''
-            )
+          div(class='input-group')
+            input(id='searchInput', name='searchInput', type='search', placeholder='playlist search...', class='form-control', required='')
+            span(class='input-group-btn')
+              button(class='btn btn-default', type='button') Search

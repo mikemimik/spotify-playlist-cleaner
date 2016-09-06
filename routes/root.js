@@ -1,7 +1,7 @@
 'use strict';
+const AppState = require('../src/state');
 const express = require('express');
 const router = express.Router();
-const AppState = require('../src/state');
 
 router.route('/')
   .get((req, res, next) => {

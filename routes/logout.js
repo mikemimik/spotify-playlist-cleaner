@@ -1,13 +1,15 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
 const AppState = require('../src/state');
+const express = require('express');
+const Helpers = require('../src/helpers');
+const router = express.Router();
 
 router.route('/')
   .get((req, res, next) => {
     // TODO: check the '/' root to make sure this is actually resetting stuff
     // TODO: find out if I need to re-initialize spotifyWebApi
     AppState.spotifyWebApi.resetCredentials();
+    Helpers.initialize(AppState);
     AppState.render = {};
     res.redirect('/');
   })
