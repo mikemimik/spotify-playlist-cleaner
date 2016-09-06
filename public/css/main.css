@@ -4,6 +4,8 @@ html {
 }
 
 body {
+  /* padding top for navbar height */
+  padding-top: 70px;
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
