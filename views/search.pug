@@ -1,14 +1,14 @@
 extends partials/layout.pug
 
 block content
-  h3 Playlist Search Page
-  form(id='playlistSearch', action='search', method='post')
-    fieldset
-      legend Search for Playlist
-      div(class='form-group')
-        label(class='col-md-4 control-label', for='searchInput') Search
-        div(class='col-md-5')
+  div(class='row')
+    div(class='col-md-6 col-md-offset-3')
+      h3 Playlist Search Page
+      form(id='playlistSearch', class='form-inline', action='search', method='post')
+        //- legend Search for Playlist
+        div(class='form-group')
+          label(class='control-label sr-only', for='searchInput') Search
           div(class='input-group')
             input(id='searchInput', name='searchInput', type='search', placeholder='playlist search...', class='form-control', required='')
             span(class='input-group-btn')
-              button(class='btn btn-default', type='button') Search
+              button(class='btn btn-default', type='submit') Search
