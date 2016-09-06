@@ -1,16 +1,17 @@
 //- inside body tag
-nav(class='navbar navbar-default')
+nav(class='navbar navbar-default navbar-fixed-top')
   div(class='container-fluid')
     div(class='navbar-header')
       a(class='navbar-brand', href='/') Playlist Cleaner
     ul(class='nav navbar-nav')
-      li(id='home')
+      li(id='home', class={ active: currentUrl == '/' })
         a(href='/') Home
-      li(id='search')
+      li(id='search', class={ active: currentUrl == '/search' })
         a(href='/search') Search
     ul(class='nav navbar-nav navbar-right')
       if authorized
-        li(id='profile')
+        p(class='navbar-text') Logged in as #{user.name}
+        li(id='profile', class={ active: currentUrl == '/profile' })
           a(href='/profile') Profile
         li(id='logout')
           a(href='/logout') Logout
