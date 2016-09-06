@@ -43,7 +43,7 @@ router.route('/')
           res.render(
             'index',
             AppState.render,
-            Helpers.renderView(this, res, AppState)
+            Helpers.renderView.bind(this, res, AppState)
           );
         })
         .catch(Handlers.error);
