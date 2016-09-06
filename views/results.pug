@@ -2,9 +2,16 @@ extends partials/layout.pug
 
 block content
   h3 Search Results Page
-  div(class='playlist')
-    each playlist in playlists
-      ul
-      //- li ID: #{playlist.id}
-      li NAME: #{playlist.name}
-      li NUM TRACKS: #{playlist.numTracks}
+  form(id='playlistResults', action='', method='post')
+  div(class='row')
+  each playlist in playlists
+      div(class='col-sm-6 col-md-4')
+        div(class='thumbnail')
+          img(src=playlist.img, alt='some image' height=300, width=300)
+          div(class='caption')
+            h4=playlist.name
+            p Numer of tracks: #{playlist.numTracks}
+            p
+              a(href='#', class='btn btn-primary', role='button') Button
+              span=' '
+              a(href='#', class='btn btn-default', role='button') Other Button
