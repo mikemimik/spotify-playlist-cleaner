@@ -1,15 +1,12 @@
 'use strict';
-const AppState = require('../src/state');
+
 const express = require('express');
-const Config = require('../config');
 const router = express.Router();
+const spotify = require('../src/spotify-api');
 
 router.route('/')
   .get((req, res, next) => {
-    let authorizeURL = AppState.spotifyWebApi.createAuthorizeURL(
-      Config.scopes,
-      Config.state
-    );
+    let authorizeURL = spotify.WebApi.createAuthorizeURL(spotify.scope, spotify.state);
     res.redirect(authorizeURL);
   });
 
