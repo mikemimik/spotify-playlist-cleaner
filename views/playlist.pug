@@ -1,0 +1,17 @@
+extends partials/layout.pug
+
+block content
+  div(class='container')
+    h2= pageTitle
+    div(class='row')
+      each playlist in playlists
+        div(class='col-xs-6 col-md-4')
+          div(class='thumbnail')
+            img(src=playlist.img, alt='some image' height=300, width=300)
+            div(class='caption')
+              h4=playlist.name
+              p Numer of tracks: #{playlist.numTracks}
+              p
+                a(href='#', class='btn btn-primary', role='button') Filter Tracks
+                span=' '
+                a(href='#', class='btn btn-default', role='button') Show Playlist
