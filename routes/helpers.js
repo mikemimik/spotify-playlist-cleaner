@@ -1,11 +1,19 @@
 'use strict';
 
-const Playlist = require('../models/playlist');
+const Models = require('../models');
 
 module.exports.createPlaylistItems = function createPlaylistItems (items) {
-  let playlists = [];
-  items.forEach((item) => {
-    playlists.push(new Playlist(item));
+  return items.map((item) => {
+    return new Models.Playlist(item);
   });
-  return playlists;
+};
+
+module.exports.createTrackItems = function createTrackItems (items) {
+  return items.map((item, index) => {
+    return new Models.Track(item.track, index);
+  });
+};
+
+module.exports.createPaginationObj = function createPaginationObj () {
+
 };
