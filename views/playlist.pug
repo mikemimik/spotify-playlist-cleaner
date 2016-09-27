@@ -4,14 +4,29 @@ block content
   div(class='container')
     h2= pageTitle
     div(class='row')
-      each playlist in playlists
-        div(class='col-xs-6 col-md-4')
-          div(class='thumbnail')
-            img(src=playlist.img, alt='some image' height=300, width=300)
-            div(class='caption')
-              h4=playlist.name
-              p Numer of tracks: #{playlist.numTracks}
-              p
-                a(href='#', class='btn btn-primary', role='button') Filter Tracks
-                span=' '
-                a(href='#', class='btn btn-default', role='button') Show Playlist
+      if playlists
+        each playlist in playlists
+          div(class='col-xs-6 col-md-4')
+            div(class='thumbnail')
+              img(src=playlist.img, alt='some image' height=300, width=300)
+              div(class='caption')
+                h4=playlist.name
+                p Number of tracks: #{playlist.numTracks}
+                p
+                  a(href=`/playlist/filter?playlist=${playlist.id}&owner=${playlist.owner}`, class='btn btn-primary', role='button') Filter Playlist
+                  span=' '
+                  a(href=`/playlist/${playlist.owner}/${playlist.id}/tracks`, class='btn btn-default', role='button') Show Playlist
+      else
+        p No playlists to display
+    div(class='row text-center')
+      nav(aria-label='search result pages')
+        ul(class='pagination pagination-lg')
+          li(class='disabled')
+            a(href='#', aria-label='Previous')
+              span(aria-hidden='true') &laquo;
+          li: a(href='#') 1
+          li: a(href='#') 2
+          li: a(href='#') 3
+          li
+            a(href='#', aria-label='Next')
+              span(aria-hidden='true') &raquo;
