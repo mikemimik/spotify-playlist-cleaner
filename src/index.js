@@ -29,12 +29,12 @@ app.use(
 app.use(require('morgan')('dev'));
 app.use(notify);
 app.use((req, res, next) => {
-  console.log('### TESTING ###');
-  console.log('req.session:', req.session);
-  console.log('url:', req.url);
-  console.log('auth:', req.session.isAuthenticated);
-  console.log('user:', req.session.user);
-  console.log('### END ###');
+  // console.log('### TESTING ###');
+  // console.log('req.session:', req.session);
+  // console.log('url:', req.url);
+  // console.log('auth:', req.session.isAuthenticated);
+  // console.log('user:', req.session.user);
+  // console.log('### END ###');
   res.locals.loggedIn = req.session.isAuthenticated;
   res.locals.currentUrl = req.url;
   res.locals.user = req.session.user || {};
