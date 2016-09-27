@@ -15,8 +15,10 @@ class Playlist {
     return {
       id: this.id,
       name: this.name,
+      listTracks: this.tracks.href,
       numTracks: this.tracks.total,
-      img: this.images[0].url
+      img: this.images[0].url,
+      owner: this.owner.id
     };
   }
 }
