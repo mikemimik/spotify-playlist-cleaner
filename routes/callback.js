@@ -1,50 +1,41 @@
 'use strict';
-const AppState = require('../src/state');
+
 const Handlers = require('../handlers');
 const express = require('express');
-const Helpers = require('./helpers');
-const Config = require('../config');
 const router = express.Router();
+const spotify = require('../src/spotify-api');
 
-router.route('/')
-  .all((req, res, next) => {
-    AppState.render.currentUrl = '/';
-    next();
-  })
-  .post((req, res, next) => {
-    console.log('received POST to /callback'); // TESTING
-    res.render(
-      'index',
-      AppState.render,
-      Helpers.renderView(this, res, AppState)
-    );
-  })
+router.route('/auth')
   .get((req, res, next) => {
-    console.log('received GET to /callback'); // TESTING
+    // console.log(req.session); // TESTING
     let authCode = req.query.code;
     let checkState = req.query.state;
-    if (checkState === Config.state) {
-      AppState.spotifyWebApi.authorizationCodeGrant(authCode)
+    if (checkState === spotify.state) {
+      spotify.WebApi.authorizationCodeGrant(authCode)
         .then((data) => {
-          AppState.token.expires = data.body['expires_in'];
-          AppState.token.access = data.body['access_token'];
-          AppState.token.refresh = data.body['refresh_token'];
-          AppState.spotifyWebApi.setAccessToken(AppState.token.access);
-          AppState.spotifyWebApi.setRefreshToken(AppState.token.refresh);
-          AppState.render.authorized = true;
-          return AppState.spotifyWebApi.getMe();
+          // TODO: are these 3 lines needed?
+          spotify.store.token.expires = data.body['expires_in'];
+          spotify.store.token.access = data.body['access_token'];
+          spotify.store.token.refresh = data.body['refresh_token'];
+          spotify.WebApi.setAccessToken(spotify.store.token.access);
+          spotify.WebApi.setRefreshToken(spotify.store.token.refresh);
+          req.session.isAuthenticated = true;
+          spotify.store.authenticated = true;
+          return spotify.WebApi.getMe();
         })
         .then((data) => {
+          // TODO: create user profile
           let user = {
             id: data.body.id,
             name: data.body.display_name ? data.body.display_name : data.body.id
           };
-          AppState.render.user = user;
-          res.render(
-            'index',
-            AppState.render,
-            Helpers.renderView.bind(this, res, AppState)
-          );
+          if (req.session) {
+            console.log('req.session is truthy');
+          } else {
+            console.log('req.session is falsy');
+          }
+          req.session.user = user;
+          res.redirect('/');
         })
         .catch(Handlers.error);
     } else {

@@ -1,0 +1,35 @@
+extends partials/layout.pug
+
+block content
+  div(class='container')
+    div(class='panel panel-default')
+      div(class='panel-heading') Playlist Tracks
+      div(class='panel-body')
+        p Some junk info about this playlist and it's tracks
+        form(class='form-inline', action=`/playlist/filter/${playlist.id}`, method='post')
+          input(class='btn btn-default', type='submit', value='Filter Playlist')
+          input(type='hidden', value=playlist.id, name='playlistId')
+          input(type='hidden', value=user.id, name='userId')
+
+      div(class='table-responsive')
+        table(class='table table-striped')
+          thead
+            tr
+              th #
+              th Title
+              th Artist
+              th Album
+              th Explicit
+              th Length
+          tbody
+            each track in tracks
+              tr
+                td= track.pos
+                td= track.name
+                td= track.artist
+                td= track.album
+                if track.explicit
+                  td= track.explicit
+                else
+                  td=' '
+                td= `${track.duration.min} min ${track.duration.sec} sec`

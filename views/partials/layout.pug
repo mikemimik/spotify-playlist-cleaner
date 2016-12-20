@@ -2,7 +2,9 @@ doctype html
 html
   head
     include header.pug
+    block scripts
   body
     include nav.pug
-    include body.pug
-    include footer.pug
+    include notify.pug
+    block content
+    //- include footer.pug
