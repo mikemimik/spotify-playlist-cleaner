@@ -7,13 +7,25 @@ const router = express.Router();
 const Helpers = require('./helpers');
 const _ = require('lodash');
 
-function generalCatch (err, req, res) {
-  console.log('encountered error:', err);
-  res.status(400).end();
+function generalCatch (err) {
+  console.log('Caught an error:', err);
+  this.res.status(400).end();
 }
 
-function getDisplayPlaylists (data, req, res) {
-  console.log(data.body); // TESTING
+function setLocals (data) {
+  this.res.locals.userId = this.req.params.userId;
+  this.res.locals.navigation = { next: null, previous: null };
+  this.res.locals.pageTitle = this.req.session.user.id + '\'s Playlists';
+  return this;
+  // this.res.render('playlist-list');
+}
+
+function renderRoute (data) {
+  this.res.render(data);
+}
+
+function createPlaylistItems (data) {
+  // console.log(data.body); // TESTING
   // href -> link to current list of playlists
   // items -> array of objects
   // limit -> number of objects in `items`
@@ -21,44 +33,83 @@ function getDisplayPlaylists (data, req, res) {
   // offset -> starting index for `items`
   // previous -> link to previous set of playlists
   // total -> total number of playlist items
-  res.locals.pageTitle = (req.url === '/self')
-    ? req.session.user.id + '\'s playlists'
-    : 'Spotify\' Playlists';
-  let playlists = Helpers.createPlaylistItems(data.body.items);
-  res.locals.playlists = playlists.map(playlist => playlist.render());
-  res.render('playlist');
+  let promise = new Promise((resolve, reject) => {
+    let playlists = Helpers.createPlaylistItems(data.body.items);
+    this.res.locals.playlists = playlists.map(playlist => playlist.render());
+    return resolve(this);
+  });
+  return promise;
 }
 
-router.route('/spotify')
+// function getUserPlaylists () {
+//   let promise = new Promise((resolve, reject) => {
+//     spotify.WebApi.getUserPlaylists(this.req.session.user.id)
+//       .then()
+//       .catch();
+//   });
+//   return promise;
+// }
+
+function createPagination () {
+  let promise = new Promise((resolve, reject) => {
+
+  });
+  return promise;
+}
+
+router.route('/:userId')
   .all(requireAuth)
   .get((req, res, next) => {
-    spotify.WebApi.getUserPlaylists('spotify')
-      .then(_.bind(getDisplayPlaylists, this, _, req, res))
-      .catch(_.bind(generalCatch, this, _, req, res));
+    console.log('params:', req.params);
+    console.log('query:', req.query);
+    console.log('body:', req.body);
+
+    // TODO: collect route data
+    let context = { req: req, res: res };
+    let offset = 0;
+    if (req.query.page) {
+      let page = parseInt(req.query.page, 10);
+      offset = (page - 1) * 20;
+    }
+    // TODO: make API request
+    spotify.WebApi.getUserPlaylists(req.params.userId, { offset: offset })
+      // TODO: deal with API response data
+      .then(createPlaylistItems.bind(context))
+      // TODO: sort out pagination
+      .then(createPagination.bind(context))
+      // TODO: set locals data
+      .then(setLocals.bind(context))
+      // TODO: render route
+      .then(renderRoute.bind(context))
+      .catch(generalCatch.bind(context));
   });
 
-router.route('/self')
+router.route('/:userId/:playlistId')
+  .get((req, res, next) => {
+    console.log('playlist id:', req.params.playlistId);
+    next();
+  });
+
+router.route('/*/:playlistId/tracks')
   .all(requireAuth)
   .get((req, res, next) => {
-    console.log('GET - this:', this);
-    spotify.WebApi.getUserPlaylists(req.session.user.id)
-      .then(_.bind(getDisplayPlaylists, this, _, req, res))
-      .catch(_.bind(generalCatch, this, _, req, res));
-  });
-
-router.param('playlist_id', (req, res, next, id) => {
-  // TODO: put the track object on the req
-  let userId = req.url.split('/')[1];
-  if (userId === 'spotify' || userId === req.session.user.id) {
-    spotify.WebApi.getPlaylist(userId, id)
+    // console.log('### TESTING - /*/tracks/:track_id ###'); // TESTING
+    // console.log('user:', req.session.user); // TESTING
+    // console.log('url:', req.url); // TESTING
+    // console.log('baseUrl:', req.baseUrl); // TESTING
+    // console.log('for:', req.url.split('/')[1]); // TESTING
+    // console.log('### END ###'); // TESTING
+    let userId = req.url.split('/')[1];
+    spotify.WebApi.getPlaylist(userId, req.params.playlistId)
       .then((data) => {
         // TODO: attach them to the playlist object?
         // TODO: render them in a userful way?
-        req.playlistData = data.body;
-        req.tracks = Helpers.createTrackItems(data.body.tracks.items);
-        next();
-      })
-      .catch((err) => {
+        console.log(data.body); // TESTING
+        // res.locals.playlistData = data.body;
+        res.locals.tracks = Helpers.createTrackItems(data.body.tracks.items);
+        res.locals.playlist = { id: req.params.playlistId };
+        res.render('tracks');
+      }).catch((err) => {
         if (err) {
           console.log(err);
           req.session.notify = {
@@ -68,29 +119,14 @@ router.param('playlist_id', (req, res, next, id) => {
           res.redirect('/');
         }
       });
-  } else {
-    req.session.notify = {
-      type: 'warning',
-      message: 'Invalid id given for playlist.'
-    };
-    res.redirect('/');
-  }
-});
+  });
 
-router.route('/*/:playlist_id/tracks')
-  .all(requireAuth)
-  .get((req, res, next) => {
-    // INFO: making assumption req.tracks exists (because of param route)
-    res.locals.tracks = req.tracks;
-    res.locals.playlist_id = req.params.playlist_id;
-    res.render('tracks');
-    // console.log('### TESTING - /*/tracks/:track_id ###'); // TESTING
-    // console.log('user:', req.session.user); // TESTING
-    // console.log('url:', req.url); // TESTING
-    // console.log('baseUrl:', req.baseUrl); // TESTING
-    // console.log('for:', req.url.split('/')[1]); // TESTING
-    // console.log('### END ###'); // TESTING
-    // res.redirect('/playlist/spotify');
+router.route('/filter/:playlistId')
+  .post((req, res, next) => {
+    console.log('params:', req.params);
+    console.log('query:', req.query);
+    console.log('body:', req.body);
+    res.render('index');
   });
 
 router.route('/filter')
@@ -151,11 +187,6 @@ router.route('/filter')
       };
       res.redirect('/');
     }
-  })
-  .post((req, res, next) => {
-    console.log(req.params);
-    console.log(req.query);
-    res.render('index');
   });
 
 module.exports = router;

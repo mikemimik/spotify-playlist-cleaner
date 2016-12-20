@@ -43,9 +43,8 @@ app.use((req, res, next) => {
 app.use('/', require('../routes/index'));
 app.use('/search', require('../routes/search'));
 app.use('/logout', require('../routes/logout'));
-app.use('/profile', require('../routes/profile'));
+app.use('/user', require('../routes/user'));
 app.use('/callback', require('../routes/callback'));
-app.use('/playlist', require('../routes/playlist'));
 app.use('/authorize', require('../routes/authorize'));
 app.listen(process.env.PORT, () => {
   console.log(`App Listening on port ${process.env.PORT}...`);
