@@ -22,3 +22,15 @@ body {
   padding-right: 15px;
   padding-left: 15px;
 }
+
+table tr td a {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+table tr td {
+  height: 100%;
+  padding-left:0;
+  padding-right:0;
+}
