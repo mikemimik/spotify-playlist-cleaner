@@ -1,0 +1,55 @@
+extends partials/layout.pug
+
+block content
+  script.
+  //
+    $(document).ready(function ($) {
+      $('.row-clickable').click(function () {
+        window.location = $(this).data('href');
+      });
+    });
+  div(class='container')
+    h2= pageTitle
+    div(class='row')
+      if playlists
+        div(class='table-responsive')
+          table(class='table table-hover')
+            thead
+              tr
+                th image
+                th title
+                th tracks
+                th
+            tbody
+              each playlist in playlists
+                // tr(class='row-clickable', data-href=pathId + '/' + playlist.id + '/tracks')
+                - var playlistLink = userId + '/' + playlist.id + '/tracks'
+                tr
+                  td
+                    a(href=playlistLink)
+                      img(height='40px', width='40px', src=playlist.img)
+                  td
+                    a(href=playlistLink)= playlist.name
+                  td= playlist.numTracks
+                  td (filtered)
+    div(class='row')
+      nav(class='text-center')
+        ul(class='pagination')
+          //- setup the previous tab
+          if (navigation.previous)
+            li
+              a(href='#') &laquo;
+          else
+            li(class='disabled')
+              span &laquo;
+          //- loop to get middle number tabs
+          - for (var x = 1; x <= 5; x++)
+            li
+              a(href='#')= x
+          //- setup the next tab
+          if (navigation.next)
+            li
+              a(href='#') &raquo;
+          else
+            li(class='disabled')
+              span &raquo;

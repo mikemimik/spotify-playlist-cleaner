@@ -15,7 +15,7 @@ block content
                 p
                   a(href=`/playlist/filter?playlist=${playlist.id}&owner=${playlist.owner}`, class='btn btn-primary', role='button') Filter Playlist
                   span=' '
-                  a(href=`/playlist/${playlist.owner}/${playlist.id}/tracks`, class='btn btn-default', role='button') Show Playlist
+                  a(href=`/user/${playlist.owner}/playlists/${playlist.id}/tracks`, class='btn btn-default', role='button') Show Playlist
       else
         p No playlists to display
     div(class='row text-center')
