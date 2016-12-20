@@ -6,10 +6,10 @@ block content
       div(class='panel-heading') Playlist Tracks
       div(class='panel-body')
         p Some junk info about this playlist and it's tracks
-        form(class='form-inline', action=`/playlist/filter/${playlist}`, method='post')
+        form(class='form-inline', action=`/playlist/filter/${playlist.id}`, method='post')
           input(class='btn btn-default', type='submit', value='Filter Playlist')
-          input(type='hidden', value=playlistId, name='playlist_id')
-          input(type='hidden', value=user.id, name='user_id')
+          input(type='hidden', value=playlist.id, name='playlistId')
+          input(type='hidden', value=user.id, name='userId')
 
       div(class='table-responsive')
         table(class='table table-striped')

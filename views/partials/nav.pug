@@ -19,10 +19,10 @@ nav(class='navbar navbar-default navbar-fixed-top')
               span=' '
               span(class='caret')
             ul(class='dropdown-menu')
-              li(class={ active: currentUrl == '/playlist/spotify' })
-                a(href='/playlist/spotify') Spotify
-              li(class={ active: currentUrl == '/playlist/self' })
-                a(href='/playlist/self') Personal
+              li(class={ active: currentUrl == '/user/' + 'spotify' + '/playlists' })
+                a(href='/user/' + 'spotify' + '/playlists') Spotify
+              li(class={ active: currentUrl == '/user/' + user.name + '/playlists' })
+                a(href='/user/' + user.name + '/playlists') Personal
               li(class={ active: currentUrl == '/playlist/search' })
                 a(href='/search') Search
       ul(class='nav navbar-nav navbar-right')
@@ -37,7 +37,7 @@ nav(class='navbar navbar-default navbar-fixed-top')
                 span Menu Items
               li(role='separator', class='divider')
               li(class={ active: currentUrl == '/profile' })
-                a(href='/profile') Profile
+                a(href='/user/' + user.name) Profile
               li()
                 a(href='/logout') Logout
         else
